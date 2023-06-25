@@ -1,5 +1,3 @@
-import com.sun.corba.se.impl.oa.toa.TOA;
-import com.sun.xml.internal.bind.v2.TODO;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -9,7 +7,6 @@ import java.io.*;
 import java.net.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.net.PasswordAuthentication;
 import java.util.Objects;
 import javax.swing.*;
 import javax.mail.*;
