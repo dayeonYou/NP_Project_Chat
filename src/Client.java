@@ -219,7 +219,9 @@ public class Client extends JFrame {
                     frameEmail.pack();
                     frameEmail.setVisible(true);
                 }
-
+                else{
+                    requestStockReserve(stockName, trend, priceOfReserve, notification);
+                }
                 // 예약 창 끄기
                 reservationFrame.dispose();
             });

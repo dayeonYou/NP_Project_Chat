@@ -460,8 +460,6 @@ public class Server extends JFrame {
                     addressTo = new InternetAddress(EmailAddress);
                     msg.setRecipient(javax.mail.Message.RecipientType.TO, addressTo);
                     msg.setSubject("예약 알림");
-                    System.out.println(message+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-//                    msg.setContent(message, "text/html; charset=iso-8859-9");
                     msg.setContent(message, "text/html; charset=UTF-8");
 
                     Transport t = session.getTransport("smtp");
