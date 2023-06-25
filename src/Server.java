@@ -214,10 +214,10 @@ public class Server extends JFrame {
                 String price = currentPrice.text(); //현재 가격
                 return (title +"&&&" +price+"&&&"+screenshotUrl);
             } else {
-                return "notFound";
+                return "notFound3";
             }
         } catch (IOException ex) {
-            return "notFound";
+            return "notFound4";
         }
     }
 
@@ -237,7 +237,7 @@ public class Server extends JFrame {
         String encodedStockName = null;
         try {
             encodedStockName = URLEncoder.encode(stockName, "EUC-KR");
-            System.out.println(encodedStockName);
+//            System.out.println(encodedStockName);
         } catch (UnsupportedEncodingException ex) {
             throw new RuntimeException(ex);
         }
@@ -256,10 +256,30 @@ public class Server extends JFrame {
                 Document stockInfoDoc = Jsoup.connect(stockInfoUrl).get();
                 Element stockTitle = stockInfoDoc.select("div.wrap_company h2").first();
                 Element currentPrice = stockInfoDoc.select("p.no_today span.blind").first();
-                Element stockStatus = stockInfoDoc.select("em.no_up span.ico").first();
+                Element stockStatus;
+                stockStatus = stockInfoDoc.select("em.no_up span.ico").first();
                 Element upSpan = stockInfoDoc.select("span.ico.up").first();
-                Element emElement = upSpan.parent();
+                Element emElement;
+                if (upSpan == null) {
+                    stockStatus = stockInfoDoc.select("em.no_down span.ico").first();
+                    Element downSpan = stockInfoDoc.select("span.ico.down").first();
+                    if(downSpan!=null){
+                        emElement = downSpan.parent();
+                        System.out.println("하락상태");
+                    }
+//                    emElement = downSpan.parent();
+
+                    else{
+                        stockStatus = stockInfoDoc.select("em.X span.ico.sam").first();
+                        Element neutralSpan = stockInfoDoc.select("span.ico.sam").first();
+                        emElement = neutralSpan.parent();
+                        System.out.println("보합상태");
+                    }
+                } else {
+                    emElement = upSpan.parent();
+                }
                 Elements stockNumbers = emElement.select("span[class^=no]");
+
 
                 String status = stockStatus.text();
                 String numberOfR = stockNumbers.text();
@@ -269,13 +289,13 @@ public class Server extends JFrame {
                 startExecutionThread((status+"&&&"+numberOfR), stockReserveInfo);
                 return (status +"&&&" +numberOfR);
             } else {
-                return "notFound";
+                return "notFound1";
             }
         } catch (IOException ex) {
-            return "notFound";
+            return "notFound2";
         }
     }
-    
+
     private void startExecutionThread(String currentStatus, String reserveStatus) {
         Thread executionThread = new Thread(() -> {
             while (true) {
@@ -348,6 +368,7 @@ public class Server extends JFrame {
             System.out.println("currentDouble:" + trendCurrentDouble);
             System.out.println("reserveDouble:" + trendReserveDouble);
             return (trendReserveDouble <= trendCurrentDouble);
+
         }
         return false;
     }
